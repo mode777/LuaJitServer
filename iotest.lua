@@ -32,7 +32,8 @@ local data = [[
     }
 ]]
 
-local path = [[/root/LuaJitServer/iotest]]
+--local path = [[/root/LuaJitServer/iotest]]
+local path = [[E:\users\Alex\Dropbox\code\Web\server\iotest]]
 
 local t = os.clock()
 for i=0, 1000 do
@@ -41,5 +42,12 @@ for i=0, 1000 do
     file:write(data)
     file:close()
 end
-
 print("Files written in "..os.clock()-t)
+local t = os.clock()
+local data = {}
+
+for i=0, 1000 do
+    data[#data+1] = loadfile(path.."/"..i..".lua")()
+end
+print(#data,"Tables read")
+print("Files read and evaluated in "..os.clock()-t)
