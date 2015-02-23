@@ -32,8 +32,8 @@ local data = [[
     }
 ]]
 
---local path = [[/root/LuaJitServer/iotest]]
-local path = [[E:\users\Alex\Dropbox\code\Web\server\iotest]]
+local path = [[/root/LuaJitServer/iotest]]
+--local path = [[E:\users\Alex\Dropbox\code\Web\server\iotest]]
 
 local t = os.clock()
 for i=0, 1000 do
