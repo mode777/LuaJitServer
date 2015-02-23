@@ -33,6 +33,6 @@ function data.loadDatabase()
     end
 end
 local t = os.clock()
-data.loadDatabase()
+--data.loadDatabase()
 print("Database loaded, "..os.clock()-t)
 return data
