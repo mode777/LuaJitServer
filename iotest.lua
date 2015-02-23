@@ -32,7 +32,7 @@ local data = [[
     }
 ]]
 
-local path = [[e:/users/alex/dropbox/code/web/luajitserver/iotest]]
+local path = [[/root/LuaJitServer/iotest]]
 
 local t = os.clock()
 for i=0, 1000 do
