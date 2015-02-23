@@ -1,0 +1,42 @@
+@import url(http://fonts.googleapis.com/css?family=Wire+One);
+body{
+    font-family: 'Wire One', sans-serif;
+    background: radial-gradient(circle, #1267A1, #0F4A6E);
+    color: #fff;
+}
+.clock{
+    margin-top:27vh;
+    text-align: center;
+    font-size: 33vh;
+}
+.date{
+    margin-top:-3vh;
+    text-align: center;
+    font-size: 8vh;
+}
+.circle{
+    position:absolute;
+    transform: translate(-50%,-50%);
+    top:50%;
+    left:50%;
+    width:77vh;
+    height:77vh;
+    border-radius:50%;
+    border: .7vh solid #fff;
+    background: rgba(0,0,0,.33);
+    z-index:-1;
+}
+.circle-sm-container{
+    height:36.5vh;
+    position:absolute;
+    top:50%;
+    left:50%;
+    line-height:36.5vh;
+}
+.circle-sm{
+    width:4vh;
+    height:4vh;
+    border-radius:50%;
+    background:#fff;
+
+}
