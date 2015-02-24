@@ -19,7 +19,7 @@ end
 
 function goip.run(username, password, interval)
     print(username,password,interval)
-    interval = interval or 60
+    interval = tonumber(interval) or 60
     while true do
         updateIp(username,password,interval)
         wait(interval)
