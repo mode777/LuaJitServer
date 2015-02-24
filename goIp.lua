@@ -1,11 +1,10 @@
 local goip = {}
 local http = require 'socket.http'
-local cr = require 'coroutineSheduler'
 
 local function wait(s)
     local t = os.clock()
     while (os.clock()-t < s) do
-        coroutine.yield()
+
     end
 end
 
@@ -28,4 +27,3 @@ end
 
 local usr, pwd, ival = arg[1], arg[2], arg[3]
 goip.run(usr,pwd,ival)
-cr.run()
