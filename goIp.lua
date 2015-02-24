@@ -3,8 +3,8 @@ local http = require 'socket.http'
 local cr = require 'coroutineSheduler'
 
 local function wait(s)
-    local stime = socket.gettime()*1000;
-    while (socket.gettime()*1000-stime < s) do
+    local t = os.clock()
+    while (os.clock()-t < s) do
         coroutine.yield()
     end
 end
@@ -14,7 +14,7 @@ local function updateIp(username, password)
     http.request('http://api.ipify.org')
     local request = [[http://www.goip.de/setip?username=]]..username..[[&password=]]..password..[[&subdomain=]]..username..[[.goip.de&ip=]]..ip..[[&html=false]]
     local answer = http.request(request)
-    print(answer);
+    print(answer)
 end
 
 function goip.run(username, password, interval)
@@ -26,5 +26,6 @@ function goip.run(username, password, interval)
     end
 end
 
-goip.run(arg[1], arg[2], arg[3])
+local usr, pwd, ival = arg[1], arg[2], arg[3]
+goip.run(usr,pwd,ival)
 cr.run()
