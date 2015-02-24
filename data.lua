@@ -19,7 +19,7 @@ function data.storeDatabase()
     local file,err = io.open (conf.dataLocation.."/".."dataBase.json","w")
     if not err then
         file:write(data.toJSON(data.base))
-        file:close()
+        file:close();
     end
 end
 
