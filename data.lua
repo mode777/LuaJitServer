@@ -1,3 +1,4 @@
+
 local json = require 'json'
 local conf = require 'conf'
 local io = io
@@ -36,3 +37,4 @@ local t = os.clock()
 --data.loadDatabase()
 print("Database loaded, "..os.clock()-t)
 return data
+

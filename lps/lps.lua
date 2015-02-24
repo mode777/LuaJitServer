@@ -1,7 +1,7 @@
---local path = ""
---local lfs = require 'lfs'
---print(lfs.currentdir())
---print("test")
+local socket = require 'socket'
+local uuid = require 'uuid'
+
+uuid.seed()
 
 local mastertable = {}
 
@@ -31,6 +31,14 @@ for i=1, #testlist do
     print(testlist[i][1])
 end
 print(testlist._secretKey)
+
+
+print(uuid())
+print(uuid())
+print(uuid())
+print(uuid())
+print(uuid())
+print(uuid())
 
 
 
