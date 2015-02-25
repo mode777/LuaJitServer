@@ -22,6 +22,9 @@ return function(request, response)
             response.fields["Content-Length"] = response.content:len()
             --print(response.content)
         else
+        if parsed[2] == "log" then
+
+        end
             return routes["*"](request,response)
         end
     end

@@ -11,6 +11,9 @@
 				$(".clock").text(getFormatedTime());
 				$(".date").text(getFormatedDate());
 			},1000);
+			$.get("/log.txt",function(res){
+			    $("#log").html(res.replace(/\n/g, "<br />"));
+			});
 		});
 	</script>
 </head>
@@ -22,7 +25,7 @@
     <div class="panel">
         <h1>Server Status</h1>
         <div class="divide"></div>
-        <code>Test1,2</code>
+        <div style="overflow:auto;height:62vh;"><code id="log"></code></div>
     </div>
 </body>
 </html>

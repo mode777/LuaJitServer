@@ -3,6 +3,7 @@ local url = require 'socket.url'
 local cs = require 'coroutineSheduler'
 local conf = require 'conf'
 local router = require 'router'
+local log = require 'log'
 
 local http = {}
 
@@ -20,7 +21,7 @@ function http.createServer(host,port)
             server:bind(host,port)
             server:listen(10000)
             server:settimeout(0)
-            print("Server running at "..host..":"..port..".")
+            log("Server running at "..host..":"..port..".")
             while true do
                 local sockClient = server:accept()
                 if sockClient then
@@ -48,7 +49,7 @@ function http.createClient(sockClient)
             res, err = sockClient:receive('*l')
             while err == "timeout" do
                 res, err = sockClient:receive('*l')
-                --if res then print(res) end
+                --if res then log(res) end
                 coroutine.yield()
             end
             if(res) then
@@ -108,7 +109,7 @@ function http.createClient(sockClient)
             if c.request.finished then
                 c.response = c.handleResponse(c.request)
                 c.writeResponse(c.response)
-                print(c.request.method..": "..c.request.path.." - "..c.response.statusCode)
+                log(c.request.method..": "..c.request.path.." - "..c.response.statusCode)
             end
         end
         cs.add(f)

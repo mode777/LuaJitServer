@@ -2,6 +2,7 @@ local conf = require 'conf'
 local mime = require 'mime'
 local time = require 'time'
 local url = require 'socket.url'
+local log = require 'log'
 
 local io = io
 
@@ -20,7 +21,7 @@ local function readFile(path, mode)
         end
         file:close()
         --print(path,mode,size,data:len())
-        print(size.." bytes cached ("..path..").")
+        log(size.." bytes cached ("..path..").")
         return data, size
     end
 end
