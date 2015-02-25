@@ -70,5 +70,5 @@ return function(root)
     for i=1,20 do
         classes[i].save()
     end
-    root = { students=students, teachers=teachers, classes=classes }
+    return { students=students, teachers=teachers, classes=classes }
 end
