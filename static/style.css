@@ -14,6 +14,28 @@ body{
     text-align: center;
     font-size: 8vh;
 }
+.panel{
+    position:absolute;
+    transform: translate(-50%,-50%);
+    top:50%;
+    left:50%;
+    width:50vw;
+    height:72vh;
+    background: rgba(0,0,0,.33);
+    box-shadow: inset 0px 0px 73px -9px rgba(0,0,0,0.3);
+    padding: 5vh;
+}
+.divide{
+    margin-bottom:1vh;
+    width:100%;
+    height:0.2vh;
+    background-color:#fff;
+}
+
+h1{
+    margin-bottom:0;
+}
+
 .circle{
     position:absolute;
     transform: translate(-50%,-50%);

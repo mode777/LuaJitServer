@@ -35,7 +35,6 @@ local function newFile(path)
         local _, ext = filename:match("(.-)%.(.+)")
         local mimeType = mime[ext] or mime["*"]
         local mode = mimeType.read == "binary" and "rb" or "r"
-        print(mode)
         local data, size = readFile(conf.staticFilePath..path,mode)
         if data then
             f.data = data

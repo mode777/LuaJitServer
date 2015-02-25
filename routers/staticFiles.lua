@@ -1,7 +1,8 @@
 local file = require 'file'
+local conf = require 'conf'
 
 return function(request, response)
-    local file = file.retrieve(request.path)
+    local file = file.retrieve(request.path, conf.disableCaching)
         if file then
 	        response.content = file.data
 	        response.fields["Content-Type"] = file.mimeType
