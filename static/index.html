@@ -1,31 +1,17 @@
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="/jquery.min.js" defer></script>
-	<script src="/time.js" defer></script>
-	<script>
-		document.addEventListener("DOMContentLoaded", function(){
-			$(".clock").text(getFormatedTime());
-            $(".date").text(getFormatedDate());
-			setInterval(function(){
-				$(".clock").text(getFormatedTime());
-				$(".date").text(getFormatedDate());
-			},1000);
-			$.get("/log.txt",function(res){
-			    $("#log").html(res.replace(/\n/g, "<br />"));
-			});
-		});
-	</script>
+    <link rel="stylesheet" type="text/css" href="/metroui/metro-bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/metroui/metro-bootstrap-responsive.min.css">
+    <link rel="stylesheet" type="text/css" href="/metroui/iconFont.min.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <script src="/jquery.min.js"></script>
+    <script src="/widget.min.js"></script>
+    <script src="/metroui/metro.min.js"></script>
+    <script src="/layout.js"></script>
+
 </head>
 <body>
-	<div class="circle"></div>
-	<!--<div class="circle-sm-container"><div class="circle-sm"></div></div>-->
-	<div class="clock"></div>
-	<div class="date"></div>
-    <div class="panel">
-        <h1>Server Status</h1>
-        <div class="divide"></div>
-        <div style="overflow:auto;height:62vh;"><code id="log"></code></div>
-    </div>
+    <div id="header"></div>
+    <div id="footer"></div>
 </body>
 </html>

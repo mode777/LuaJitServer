@@ -41,5 +41,6 @@ local types = {
 
 --aliases
 types.jpg = types.jpeg
-
+types["min.js"] = types.js
+types["min.css"] = types.css
 return types
