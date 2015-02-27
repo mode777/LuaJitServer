@@ -43,4 +43,5 @@ local types = {
 types.jpg = types.jpeg
 types["min.js"] = types.js
 types["min.css"] = types.css
+types["tmpl.html"] = types.html
 return types

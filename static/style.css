@@ -6,7 +6,8 @@
 
 .header-button{
     margin-top:13px;
-    text-align:right;
+    text-align:center;
+    cursor:pointer;
 }
 
 .header-button:hover{
@@ -17,6 +18,13 @@
     text-align:center;
 }
 
-.fg-grey{
-    color:#aaa;
+.home-img{
+    width:initial !important;
 }
+
+.home-img-overlay{
+    height:30px !important;
+    font-family:'Segoe UI Light_','Open Sans Light',Verdana,Arial,Helvetica,sans-serif !important;
+    font-size:14px !important;
+}
+
