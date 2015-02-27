@@ -25,7 +25,7 @@ $(function(){
     $.get("/templates/footer.tmpl.html",function(result){
             $("#footer").html(result);
     });
-    window.location.hash= window.location.hash || "#Home"
+    window.location.hash= window.location.hash=="" ? "#home" : window.location.hash
     window.onhashchange = function() {
         hashChanged();
     }
