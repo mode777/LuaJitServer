@@ -1,6 +1,6 @@
 spa = {
     navigateTo: function(content){
-        window.location.hash = "#"+content
+        window.location.hash = "#"+content.toLowerCase();
     }
 }
 
@@ -29,7 +29,7 @@ $(function(){
     window.onhashchange = function() {
         hashChanged();
     }
-    spa.currentView  = window.location.hash.substring(1);
+    spa.currentView  = window.location.hash.substring(1).toLowerCase();
     spa.navigateTo(spa.currentView);
     hashChanged();
 });
