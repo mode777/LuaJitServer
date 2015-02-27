@@ -1,0 +1,19 @@
+{
+    name: "Auftragsarbeiten",
+    slides:[
+        {
+            type:"text",
+            content:"<p><b>Auftragsarbeiten</b>-Auswahl</p><p>12 Bilder</p>"
+        },
+        {
+            type:"image",
+            url:"/img/1/1b.jpg",
+            desc:"“Marienbilder” (Idee + Konzept Katharina Zimmerhackl)<br/>veröffentlicht in: “outside the box”,  Zeitschrift für feministische Gesellschaftskritik"
+        },
+        {
+            type:"image",
+            url:"/img/1/1b.jpg",
+            desc:"“Marienbilder” (Idee + Konzept Katharina Zimmerhackl)<br/>veröffentlicht in: “outside the box”,  Zeitschrift für feministische Gesellschaftskritik"
+        },
+    ]
+}
