@@ -31,6 +31,8 @@ local function newFile(path)
     local segments = url.parse_path(path)
     if segments.is_directory then
         return false
+    elseif #segments == 0 then
+        return false
     else
         local filename = segments[#segments]
         local _, ext = filename:match("(.-)%.(.+)")
