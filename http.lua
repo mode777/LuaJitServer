@@ -64,6 +64,7 @@ function http.createClient(sockClient)
                     local key, value = res:match("(.-): (.+)")
                     if key then
                         request.fields[key] = value
+                    end
                 end
             end
             if(err == "closed") then break end
