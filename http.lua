@@ -62,7 +62,8 @@ function http.createClient(sockClient)
                     --Parse header fields
                 else
                     local key, value = res:match("(.-): (.+)")
-                    request.fields[key] = value
+                    if key then
+                        request.fields[key] = value
                 end
             end
             if(err == "closed") then break end
