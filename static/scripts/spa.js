@@ -12,7 +12,8 @@ var get = function(path,callback){
 spa = {
     templates: {},
     controllers: {},
-    loadTemplate: function(path, callback){
+    models: {},
+    loadTemplateAsync: function(path, callback){
         var that = this;
         if(that.templates[path])
             callback(that.templates[path])
@@ -23,12 +24,22 @@ spa = {
                 callback(tmpl);
             });
     },
-    loadScript: function(path,callback){
-        $.ajaxSetup({
-            cache: true
+    loadScriptAsync: function(path,callback){
+        $.ajax({
+          url: path,
+          dataType: "script",
+          cache:true,
+          success: callback,
+          error: function(e,f,g){ throw("Error in " + path + " Error:" + g) },
         });
-        $.getScript( path ).done(callback).fail(function( jqxhr, settings, exception ) {
-            throw(exception);
+    },
+    loadDataAsync: function(path,callback){
+        $.ajax({
+          url: path,
+          dataType: "json",
+          cache:true,
+          success: callback,
+          error: function(e,f,g){ throw("Error in " + path + " Error:" + g) },
         });
     },
     route: function(path){
@@ -38,9 +49,12 @@ spa = {
         args = parr.slice(2)
         //console.log("controller:"+controller+" action:"+action)
         //console.log(args)
-        this.loadScript("/controllers/"+controller+".js",function(){
-            that.controllers[controller][action](args);
-        });
+        this.currentController = controller;
+        this.currentAction = action;
+        if(that.controllers[controller])
+            that.controllers[controller][action].apply(this,args);
+        else
+            that.renderView("error","404",{path:path});
     },
     render: function(id,content,animate){
         if(animate){
@@ -53,10 +67,16 @@ spa = {
         else
             $("#"+id).html(content);
     },
-    renderView: function(controller,action,data){
-        var that = this
-        var tmplPath = "/views/"+controller+"/"+action+".tmpl.html"
-        that.loadTemplate(tmplPath,function(tmpl){
+    renderView: function(controller, action, data){
+        if(arguments.length<=1){
+            data = arguments[0] || "";
+            controller = this.currentController;
+            action = this.currentAction || "index";
+        }
+        var that = this;
+        var tmplPath = "/views/"+controller+"/"+action+".tmpl.html";
+        console.log(tmplPath);
+        that.loadTemplateAsync(tmplPath,function(tmpl){
             that.render("content",tmpl(data),true);
         });
     },
@@ -67,7 +87,16 @@ spa = {
         load: function(id, callback) {
             $("#"+id).animate({opacity:1.0},500,callback);
         }
-    }
+    },
+    loadScriptsAsync: function(arr,callback){
+        arr.forEach(function(v,i){
+            spa.loadScriptAsync(v,function(res){
+                console.log(v)
+                if(i==arr.length-1)
+                    callback(res);
+            });
+        });
+    },
 }
 
 var hashChanged = function(){
@@ -76,10 +105,10 @@ var hashChanged = function(){
 }
 
 $(function(){
-    spa.loadTemplate("/templates/header.tmpl.html",function(tmpl){
+    spa.loadTemplateAsync("/templates/header.tmpl.html",function(tmpl){
         spa.render("header",tmpl(),false);
     });
-    spa.loadTemplate("/templates/footer.tmpl.html",function(tmpl){
+    spa.loadTemplateAsync("/templates/footer.tmpl.html",function(tmpl){
         spa.render("footer",tmpl(),false);
     });
     window.onhashchange = hashChanged;

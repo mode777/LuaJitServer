@@ -1,0 +1,31 @@
+[
+    {
+        "name":"Aufragsarbeiten",
+        "thumbnail_url":"/img/front/1.jpg",
+        "link":"#portfolio/gallery/contract"
+    },
+    {
+        "name":"Connewitz",
+        "thumbnail_url":"/img/front/2.jpg",
+        "link":"#portfolio/gallery/connewitz"
+    },
+    {
+        "name":"Absperrbänder",
+        "thumbnail_url":"/img/front/3.jpg",
+        "link":"#portfolio/gallery/tape"
+    },
+    {
+        "name":"Portraits",
+        "thumbnail_url":"/img/front/4.jpg",
+        "link":"#portfolio/gallery/portraits"},
+    {
+        "name":"A shot in the dark",
+        "thumbnail_url":"/img/front/5.jpg",
+        "link":"#portfolio/gallery/a_shot_in_the_dark"
+    },
+    {
+        "name":"Three makes a family",
+        "thumbnail_url":"/img/front/6.jpg",
+        "link":"#portfolio/gallery/three_makes_a_family"
+    }
+]

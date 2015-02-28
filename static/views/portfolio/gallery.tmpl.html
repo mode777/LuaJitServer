@@ -1,0 +1,52 @@
+<div id="gallery-loading" style="height:300px;text-align:center;"><h1 style="line-height:300px;">loading...</h1></div>
+<div class="grid" id="gallery-content">
+    <div class="row">
+        <div class="span1" id="prevArrow"><div>prev</div></div>
+        <div class="span10">
+            <div class="carousel" style="margin-left:auto;margin-right:auto;">
+                {{ it.forEach(function(v,i){ }}
+                {{ if(v.type == "text") { }}
+                <div class="textslide" style="text-align:center;">{{=v.content}}</div>
+                {{ } else { }}
+                <div >
+                    <div style="background-color:#fff">
+                        <img class="image" src="{{=v.url}}" style="margin-top:auto;margin-left:auto;margin-right:auto;" />
+                    </div>
+                    <div style="min-height:40px;text-align:center;background-color:#fff;">{{=v.desc}}</div>
+                </div>
+                {{ } }}
+                {{ }); }}
+            </div>
+        </div>
+        <div class="span1" id="nextArrow">next</div>
+    </div>
+</div>
+
+<script>
+    $("#gallery-content").css({
+        "opacity":"0",
+    });
+    $('.carousel').slick({
+        prevArrow:"#prevArrow",
+        nextArrow:"#nextArrow"
+    });
+    var amnt = $(".image").length;
+    var ctr = 0;
+    var mw=0,sh=10000;
+    console.log(amnt);
+    $(".image").on("load",function(){
+        mw = Math.max(this.width,mw);
+        sh = Math.min(this.height,sh);
+        ctr++;
+        if(ctr == amnt){
+            $(".image").css("height",sh+"px");
+            $(".carousel").css("height",sh+40+"px");
+            $(".carousel").css("min-width",mw+"px");
+            $(".textslide").css("padding-top",sh/2-50+"px");
+            spa.animations.unload("gallery-loading",function(){
+                $("#gallery-loading").css("display","none");
+                spa.animations.load("gallery-content");
+            });
+        }
+    });
+</script>

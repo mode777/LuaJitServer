@@ -15,6 +15,10 @@ local types = {
         type = "image/png",
         read = "binary"
     },
+    gif = {
+        type = "image/gif",
+        read = "binary"
+    },
     js = {
         type = "application/javascript",
         read = "text"

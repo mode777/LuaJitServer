@@ -1,0 +1,11 @@
+[
+    {
+        "type":"text",
+        "content":"<p><h2>Titel der Arbeit</h2><h7>Untertitel<h7><h3>XX Bilder</h3>"
+    },
+    {
+        "type":"image",
+        "url":"/img/1/1b.jpg",
+        "desc":"“<Beschreibung>"
+    }
+]

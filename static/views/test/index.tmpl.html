@@ -1,0 +1,28 @@
+<div style="height:75%;">
+    <div class="grid">
+        <div class="row">
+            <div class="span1" id="prevArrow" style="height:100%;"><div>prev</div></div>
+            <div class="span10">
+                <div class="your-class" style="background-color:#888;height:100%;margin-left:auto;margin-right:auto;">
+                    <div >
+                        <div style="background-color:#00f;height:95%;">
+                            <img src="/img/pb1.jpg" style="height:100%;margin-left:auto;margin-right:auto;" />
+                        </div>
+                        <div style="background-color:#f00;min-height:35px;"></div>
+                    </div>
+                    <div style="background-color:#0f0;height:100%;width:100%">your content</div>
+                    <div>your content</div>
+                </div>
+            </div>
+            <div class="span1" id="nextArrow">next</div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+  $('.your-class').slick({
+    prevArrow:"#prevArrow",
+    nextArrow:"#nextArrow"
+  });
+</script>

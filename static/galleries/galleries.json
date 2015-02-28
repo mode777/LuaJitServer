@@ -1,8 +1,0 @@
-[
-{ view:"/galleries/contract_work" name:"Aufragsarbeiten" thumbnail_url:"/img/front/1.jpg"},
-{ view:"/galleries/connewitz" name:"Connewitz" thumbnail_url:"/img/front/2.jpg"},
-{ view:"/galleries/tape" name:"Absperrbänder" thumbnail_url:"/img/front/3.jpg"},
-{ view:"/galleries/portraits" name:"Portraits" thumbnail_url:"/img/front/4.jpg"},
-{ view:"/galleries/a_shot_in_the_dark" name:"A shot in the dark" thumbnail_url:"/img/front/5.jpg"},
-{ view:"/galleries/three_is_a_family" name:"Three makes a family" thumbnail_url:"/img/front/6.jpg"},
-]
