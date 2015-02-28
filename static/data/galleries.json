@@ -1,6 +1,6 @@
 [
     {
-        "name":"Aufragsarbeiten",
+        "name":"Auftragsarbeiten",
         "thumbnail_url":"/img/front/1.jpg",
         "link":"#portfolio/gallery/contract"
     },
@@ -19,12 +19,12 @@
         "thumbnail_url":"/img/front/4.jpg",
         "link":"#portfolio/gallery/portraits"},
     {
-        "name":"A shot in the dark",
+        "name":"a shot in the dark",
         "thumbnail_url":"/img/front/5.jpg",
         "link":"#portfolio/gallery/a_shot_in_the_dark"
     },
     {
-        "name":"Three makes a family",
+        "name":"",
         "thumbnail_url":"/img/front/6.jpg",
         "link":"#portfolio/gallery/three_makes_a_family"
     }

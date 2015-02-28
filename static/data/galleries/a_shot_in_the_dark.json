@@ -1,56 +1,56 @@
 [
     {
         "type":"text",
-        "content":"<p><h2>A shot in the dark</h2><h7>Untertitel<h7><h3>XX Bilder</h3>"
+        "content":"<p><h2>a shot in the dark</h2><h7>Polen 2008<h7><h3>10 Bilder</h3>"
     },
     {
         "type":"image",
         "url":"/img/5/5c.jpg",
-        "desc":"“<Beschreibung>"
+        "desc":""
     },
     {
         "type":"image",
         "url":"/img/5/5d.jpg",
-        "desc":"“<Beschreibung>"
+        "desc":""
     },
     {
         "type":"image",
         "url":"/img/5/5e.jpg",
-        "desc":"“<Beschreibung>"
+        "desc":""
     },
     {
         "type":"image",
         "url":"/img/5/5f.jpg",
-        "desc":"“<Beschreibung>"
+        "desc":""
     },
     {
         "type":"image",
         "url":"/img/5/5g.jpg",
-        "desc":"“<Beschreibung>"
+        "desc":""
     },
     {
         "type":"image",
         "url":"/img/5/5h.jpg",
-        "desc":"“<Beschreibung>"
+        "desc":""
     },
     {
         "type":"image",
         "url":"/img/5/5i.jpg",
-        "desc":"“<Beschreibung>"
+        "desc":""
     },
     {
         "type":"image",
         "url":"/img/5/5j.jpg",
-        "desc":"“<Beschreibung>"
+        "desc":""
     },
     {
         "type":"image",
         "url":"/img/5/5k.jpg",
-        "desc":"“<Beschreibung>"
+        "desc":""
     },
     {
         "type":"image",
         "url":"/img/5/5l.jpg",
-        "desc":"“<Beschreibung>"
+        "desc":""
     }
 ]

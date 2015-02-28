@@ -1,7 +1,7 @@
 [
     {
         "type":"text",
-        "content":"<p><h2>Absperrbänder</h2><h7>Untertitel<h7><h3>XX Bilder</h3>"
+        "content":"<p><h2>Freie Arbeit: 'Absperrbänder'</h2><h7>Untertitel<h7><h3>10 Bilder</h3>"
     },
     {
         "type":"image",
@@ -17,11 +17,8 @@
         "type":"image",
         "url":"/img/3/3d.jpg",
         "desc":"“<Beschreibung>"
-    },
-    {
-        "type":"image",
-        "url":"/img/3/3e.jpg",
-        "desc":"“<Beschreibung>"
+
+
     },
     {
         "type":"image",
