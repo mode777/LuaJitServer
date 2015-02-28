@@ -3,10 +3,10 @@
     <div class="row">
         <div class="span1" id="prevArrow"><div>prev</div></div>
         <div class="span10">
-            <div class="carousel" style="margin-left:auto;margin-right:auto;">
+            <div class="carousel" style="margin-left:auto;margin-right:auto;background-color:#fff">
                 {{ it.forEach(function(v,i){ }}
                 {{ if(v.type == "text") { }}
-                <div class="textslide" style="text-align:center;">{{=v.content}}</div>
+                <div class="textslide" style="text-align:center;background-color:#ddd">{{=v.content}}</div>
                 {{ } else { }}
                 <div >
                     <div style="background-color:#fff">
@@ -32,17 +32,19 @@
     });
     var amnt = $(".image").length;
     var ctr = 0;
-    var mw=0,sh=10000;
+    var mh=0,sh=10000;
+    var mw=0;
     console.log(amnt);
     $(".image").on("load",function(){
-        mw = Math.max(this.width,mw);
-        sh = Math.min(this.height,sh);
+        $(this).css("height",this.height);
+        $(this).css("width",this.width);
+        mh = Math.max(mh, this.height);
+        mw = Math.max(mw, this.width);
         ctr++;
         if(ctr == amnt){
-            $(".image").css("height",sh+"px");
-            $(".carousel").css("height",sh+40+"px");
-            $(".carousel").css("min-width",mw+"px");
-            $(".textslide").css("padding-top",sh/2-50+"px");
+            $(".carousel").css("height",mh+50);
+            $(".carousel").css("min-width",mw);
+            $(".textslide").css("padding-top",mh/2-50+"px");
             spa.animations.unload("gallery-loading",function(){
                 $("#gallery-loading").css("display","none");
                 spa.animations.load("gallery-content");
