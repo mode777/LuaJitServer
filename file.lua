@@ -1,13 +1,11 @@
-local conf = require 'conf'
 local mime = require 'mime'
 local time = require 'time'
 local url = require 'socket.url'
-local log = require 'log'
+--local log = require 'log'
 
 local io = io
 
 local function readFile(path, mode)
-
     local file,err = io.open (path,mode)
     if not err then
         local data, size
@@ -21,9 +19,10 @@ local function readFile(path, mode)
         end
         file:close()
         --print(path,mode,size,data:len())
-        log(size.." bytes cached ("..path..").")
+        --log(size.." bytes cached ("..path..").")
         return data, size
     end
+    print(err)
 end
 
 local function newFile(path)
@@ -35,11 +34,11 @@ local function newFile(path)
         return false
     else
         local filename = segments[#segments]
-        local _, ext = filename:match("(.-)%.(.+)")
-        print(filename)
+        local _, ext = filename:match("(.-)%.([^%.]+)$")
+        print(filename,ext)
         local mimeType = mime[ext] or mime["*"]
         local mode = mimeType.read == "binary" and "rb" or "r"
-        local data, size = readFile(conf.staticFilePath..path,mode)
+        local data, size = readFile(path,mode)
         if data then
             f.data = data
             f.size = size
@@ -56,7 +55,7 @@ local function newFile(path)
     end
 
     function f.reload()
-        f.data, f.size = readFile(conf.staticFilePath..f.path,f.mode)
+        f.data, f.size = readFile(f.path,f.mode)
         f.lastLoaded = time.new()
     end
 
@@ -78,7 +77,7 @@ function cache.clean()
     table.sort(cacheFiles,function(f1,f2) return f1.lastAccess.totalSeconds < f2.lastAcess.totalSeconds end)
     local remTable = {}
     local i = 1
-    while cache.size > conf.cacheSize do
+    while cache.size > config.cacheSize do
         cache.size = cacheFiles[i].size
         i = i + 1
         remTable[#remTable+1] = i
@@ -95,7 +94,7 @@ function cache.store(file)
     cacheFiles[#cacheFiles+1] = file
     cacheFilesByPath[file.path] = file
     cache.size = cache.size + file.size
-    if cache.size > conf.cacheSize then
+    if cache.size > config.cacheSize then
         cache.clean()
     end
 end

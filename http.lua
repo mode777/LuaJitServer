@@ -3,7 +3,7 @@ local url = require 'socket.url'
 local cs = require 'coroutineSheduler'
 local conf = require 'conf'
 local router = require 'router'
-local log = require 'log'
+--local log = require 'log'
 
 local http = {}
 
@@ -12,7 +12,6 @@ http.codes = {
     [405] = "Method not allowed",
     [404] = "Not found"
 }
-
 function http.createServer(host,port)
     local s = {}
     function s.run()
@@ -21,7 +20,7 @@ function http.createServer(host,port)
             server:bind(host,port)
             server:listen(10000)
             server:settimeout(0)
-            log("Server running at "..host..":"..port..".")
+            print("Server running: "..host..":"..port)
             while true do
                 local sockClient = server:accept()
                 if sockClient then
@@ -38,7 +37,7 @@ end
 
 function http.createClient(sockClient)
     local c = {}
-
+    c.startTime = os.clock()
     function c.parseRequest()
         local request = {
             fields = {}
@@ -59,10 +58,14 @@ function http.createClient(sockClient)
                     request.method, request.path, request.httpVersion = method, path, version
                 elseif res == "" then
                     request.finished = true
-                    --Parse header fields
+                --Parse header fields
                 else
                     local key, value = res:match("(.-): (.+)")
                     if key then
+                        key, value = key:lower(), value:lower()
+                        if key == "cookie" then
+                            request.sessionId = value:match(config.appIdentity.."=([^;]+)")
+                        end
                         request.fields[key] = value
                     end
                 end
@@ -92,7 +95,10 @@ function http.createClient(sockClient)
     function c.writeResponse(response)
         local rt = {}
         --Write response line
-        rt[#rt+1] = string.format("HTTP/1.1 %d %s\r\n", response.statusCode, http.codes[response.statusCode])
+        rt[#rt+1] = string.format("HTTP/1.1 %d %s\r\n", response.statusCode, response.statusMessage or http.codes[response.statusCode] or "")
+        if response.content then
+            response.fields["Content-Length"] = response.content:len()
+        end
         for key,value in pairs(response.fields) do
             rt[#rt+1] = string.format("%s: %s\r\n", key, value)
         end
@@ -100,18 +106,25 @@ function http.createClient(sockClient)
         sockClient:settimeout(-1)
         --write response header
         sockClient:send(table.concat(rt))
-        --coroutine.yield()
         sockClient:send(response.content)
-        sockClient:close()
     end
-
+    --this is the client main loop
     function c.run()
         local f = function()
-            c.request = c.parseRequest()
-            if c.request.finished then
-                c.response = c.handleResponse(c.request)
-                c.writeResponse(c.response)
-                log(c.request.method..": "..c.request.path.." - "..c.response.statusCode)
+            while os.clock() - c.startTime < config.keepAliveTimeout do
+                c.request = c.parseRequest()
+                if c.request.finished then
+                    c.response = c.handleResponse(c.request)
+                    c.writeResponse(c.response)
+                    if c.request.fields.connection ~= "keep-alive" then
+                        sockClient:close()
+                        break
+                    end
+                else
+                    print("Connection closed by client")
+                    sockClient:close()
+                    break
+                end
             end
         end
         cs.add(f)

@@ -2,6 +2,7 @@ local file = require 'file'
 local conf = require 'conf'
 
 return function(request, response)
+    print(request.path)
     local file = file.retrieve(request.path, conf.disableCaching)
         if file then
 	        response.content = file.data

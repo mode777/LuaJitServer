@@ -1,31 +1,35 @@
 local url = require 'socket.url'
-local routes = require 'routes'
+--local routes = require 'routes'
 local data = require 'data'
-
+local file = require 'file'
 
 return function(request, response)
-    if routes[request.path] then return routes[request.path](request,response)
-    else
-        local parsed = url.parse_path(request.path)
-        if parsed[1] == "api" then
-            local ret = data.base
-            for i=2, #parsed do
-                local key = tonumber(parsed[i]) and tonumber(parsed[i]) or parsed[i]
-                if ret[key] then
-                    ret = ret[key]
-                else
-                    response.statusCode = 404
-                end
-            end
-            response.content = data.toJSON(ret)
-            response.fields["Content-Type"] = "application/json"
-            response.fields["Content-Length"] = response.content:len()
-            --print(response.content)
+    local parsed = url.parse_path(request.path)
+    -- Is file request?
+    if #parsed > 0 and string.match(parsed[#parsed], "%.([^%.]+)$") then
+        local file = file.retrieve(config.staticFilePath..request.path, config.disableCaching)
+        if file then
+            response.content = file.data
+            response.fields["Content-Type"] = file.mimeType
+            if file.download then response.fields["Content-Disposition"] = string.format("attachment; filename=\"%s\"",file.filename) end
         else
-        if parsed[2] == "log" then
-
+            response.statusCode = 404
         end
-            return routes["*"](request,response)
+    elseif #parsed > 0 then
+        local controller = table.remove(parsed,1) or "home"
+        local action = table.remove(parsed,1) or "index"
+        controller = controller:lower()
+        action = action:lower()
+        if controllers[controller] then
+            if controllers[controller][action] then
+                controllers[controller](action,request,response,unpack(parsed))
+            else
+                response.content = "Action "..action.." was not found in Controller "..controller.."."
+            end
+        else
+            response.content = "Controller "..controller.." was not found."
         end
+    else
+        controllers.home("index",request,response)
     end
 end
