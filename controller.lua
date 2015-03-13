@@ -45,7 +45,7 @@ result.statusCode =function(code, message)
     end
 end
 
---local myTemplate = template.load("/views/home/index.lsp")
+local myTemplate = template.load("/views/home/index.lsp")
 
 result.view = function(data)
     -- if not table or has numeric indices (is array/mixed)
@@ -53,9 +53,9 @@ result.view = function(data)
 
     return function(controllerName,action,reqest,response)
         local path = "/views/"..controllerName.."/"..action..".lsp"
-        local template = template.load(path)
+        --local template = template.load(path)
         if template then
-            result.html(template(data))(controllerName,action,reqest,response)
+            result.html(myTemplate(data))(controllerName,action,reqest,response)
         else
             result.statusCode(404,"No view for action "..action)(controllerName,action,reqest,response)
         end

@@ -103,10 +103,35 @@ function http.createClient(sockClient)
             rt[#rt+1] = string.format("%s: %s\r\n", key, value)
         end
         rt[#rt+1] = "\r\n"
-        sockClient:settimeout(-1)
+        sockClient:settimeout(0.01)
         --write response header
-        sockClient:send(table.concat(rt))
-        sockClient:send(response.content)
+        --sockClient:send(table.concat(rt))
+        if response.content then rt[#rt+1] = response.content end
+        local respData = table.concat(rt)
+        local c = respData:len()
+        local i = 0
+        local blocksize = 512
+        local to = 0
+        local t = os.clock()
+        while i <= c do
+            local index, err = sockClient:send(respData,i,math.min(i+blocksize-1,c))
+            --print(index,c)
+
+            if not err then i = i+blocksize
+            else
+                if err == "timeout" then
+                    --blocksize = math.max(blocksize/2,64)
+                    --print(blocksize)
+                    to = to+1
+                else
+                    --blocksize = math.min(blocksize*2,8192)
+                end
+                if err == "closed" then break end
+            end
+            coroutine.yield()
+        end
+        --print("Blocked:"..os.clock()-t)
+        print("Transfer finished. Timeout errors:"..to.." Total time:"..os.clock()-t)
     end
     --this is the client main loop
     function c.run()
