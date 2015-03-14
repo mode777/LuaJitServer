@@ -3,6 +3,7 @@ local url = require 'socket.url'
 local cs = require 'coroutineSheduler'
 local conf = require 'conf'
 local router = require 'router'
+local min = math.min
 --local log = require 'log'
 
 local http = {}
@@ -55,7 +56,7 @@ function http.createClient(sockClient)
                 --Parse request line
                 if not request.method then
                     local method, path, version = res:match("(%w-) ([^%s]-) HTTP/(%d.%d)")
-                    request.method, request.path, request.httpVersion = method, path, version
+                    request.method, request.path, request.httpVersion, request.requestLine = method, path, version, res
                 elseif res == "" then
                     request.finished = true
                 --Parse header fields
@@ -111,11 +112,9 @@ function http.createClient(sockClient)
         local c = respData:len()
         local i = 0
         local blocksize = 1024
-        local to = 0
-        local block = 0
         while i <= c do
-            local t = os.clock()
-            local index, err = sockClient:send(respData,i+1,math.min(i+blocksize,c))
+            --local t = os.clock()
+            local index, err = sockClient:send(respData,i+1,min(i+blocksize,c))
             if not err then
                 i = i+blocksize
             else
@@ -127,11 +126,9 @@ function http.createClient(sockClient)
 		            break
                 end
             end
-            block = math.max(block,os.clock()-t)
             coroutine.yield()
         end
-        --print("Blocked:"..os.clock()-t)
-        print("Transfer finished. Timeout errors:"..to.." Max block:"..block)
+        --print("Transfer finished. Timeout errors:"..to.." Max block:"..block)
     end
     --this is the client main loop
     function c.run()
@@ -141,12 +138,13 @@ function http.createClient(sockClient)
                 if c.request.finished then
                     c.response = c.handleResponse(c.request)
                     c.writeResponse(c.response)
+                    print(c.request.requestLine)
                     if c.request.fields.connection ~= "keep-alive" then
                         sockClient:close()
                         break
                     end
                 else
-                    print("Connection closed by client")
+                    --print("Connection closed by client")
                     sockClient:close()
                     break
                 end
