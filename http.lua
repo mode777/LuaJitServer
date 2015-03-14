@@ -103,7 +103,7 @@ function http.createClient(sockClient)
             rt[#rt+1] = string.format("%s: %s\r\n", key, value)
         end
         rt[#rt+1] = "\r\n"
-        sockClient:settimeout(-1)
+        sockClient:settimeout(0)
         --write response header
         --sockClient:send(table.concat(rt))
         if response.content then rt[#rt+1] = response.content end
@@ -121,7 +121,7 @@ function http.createClient(sockClient)
                 --print(index,c)
             else
                 if err == "timeout" then
-                    print("TIMEOUT!")
+                    --print("TIMEOUT!")
                     to = to+1
                 else
                     --blocksize = math.min(blocksize*2,8192)

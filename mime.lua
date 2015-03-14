@@ -31,10 +31,10 @@ local types = {
         type = "text/css",
         read = "text"
     },
-    txt = {
-        type = "text/plain",
-        read = "text"
-    },
+    --txt = {
+    --    type = "text/plain",
+    --    read = "text"
+    --},
     ["*"] = {
         type = "application/force-download",
         read = "binary",
