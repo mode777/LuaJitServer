@@ -1,8 +1,8 @@
 return {
-    --staticFilePath = "/root/luaserver/static",
-    staticFilePath = "E:/users/alex/dropbox/code/web/server/static",
-    --serverRoot = "/root/luaserver",
-    serverRoot = "E:/users/alex/dropbox/code/web/server",
+    staticFilePath = "/root/luaserver/static",
+    --staticFilePath = "E:/users/alex/dropbox/code/web/server/static",
+    serverRoot = "/root/luaserver",
+    --serverRoot = "E:/users/alex/dropbox/code/web/server",
     --staticFilePath = "C:/users/alex/dropbox/code/web/server/static",
     defaultPath = "/index.html",
     disableCaching = false,
@@ -13,3 +13,4 @@ return {
     keepAliveTimeout = 300, --5min,
     appIdentity = ".lua"
 }
+
