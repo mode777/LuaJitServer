@@ -112,30 +112,26 @@ function http.createClient(sockClient)
         local i = 0
         local blocksize = 1024
         local to = 0
-        local t = os.clock()
+        local block = 0
         while i <= c do
+            local t = os.clock()
             local index, err = sockClient:send(respData,i+1,math.min(i+blocksize,c))
-            --print(index,c)
-
-            if not err then i = i+blocksize
-                --print(index,c)
+            if not err then
+                i = i+blocksize
             else
                 if err == "timeout" then
-                    sockClient:close();
-		    break
-                else
-                    --blocksize = math.min(blocksize*2,8192)
-                end
-                if err == "closed" then
-                    print("CONNECTION FAILED! "..i.."/"..c)
                     sockClient:close()
-		    break
+		            break
+                elseif err == "closed" then
+                    sockClient:close()
+		            break
                 end
             end
+            block = math.max(block,os.clock()-t)
             coroutine.yield()
         end
         --print("Blocked:"..os.clock()-t)
-        print("Transfer finished. Timeout errors:"..to.." Total time:"..os.clock()-t)
+        print("Transfer finished. Timeout errors:"..to.." Max block:"..block)
     end
     --this is the client main loop
     function c.run()
