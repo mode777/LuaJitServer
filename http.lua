@@ -103,7 +103,7 @@ function http.createClient(sockClient)
             rt[#rt+1] = string.format("%s: %s\r\n", key, value)
         end
         rt[#rt+1] = "\r\n"
-        sockClient:settimeout(0.01)
+        sockClient:settimeout(0)
         --write response header
         --sockClient:send(table.concat(rt))
         if response.content then rt[#rt+1] = response.content end
@@ -114,10 +114,11 @@ function http.createClient(sockClient)
         local to = 0
         local t = os.clock()
         while i <= c do
-            local index, err = sockClient:send(respData,i,math.min(i+blocksize-1,c))
+            local index, err = sockClient:send(respData,i+1,math.min(i+blocksize,c+1))
             --print(index,c)
 
             if not err then i = i+blocksize
+                --print(index,c)
             else
                 if err == "timeout" then
                     --blocksize = math.max(blocksize/2,64)
@@ -126,7 +127,10 @@ function http.createClient(sockClient)
                 else
                     --blocksize = math.min(blocksize*2,8192)
                 end
-                if err == "closed" then break end
+                if err == "closed" then
+                    print("connextion failed")
+                    break
+                end
             end
             coroutine.yield()
         end
