@@ -1,5 +1,7 @@
 io.output():setvbuf("no")
 --todo: precompile templates
+--todo: proper coockie parsing
+--todo: post requests
 config = require "conf"
 controller = require "controller"
 app = {}

@@ -1,6 +1,7 @@
 local file = require "file"
 local template = require "template"
 local session = require "session"
+local json = require "json"
 
 local result = {}
 result.staticFile = function(path)
@@ -28,7 +29,13 @@ result.html = function(html)
         response.fields["Content-Type"] = "text/html"
     end
 end
-
+result.json = function(tab)
+    local jsonString = json.encode(tab)
+    return function(controllerName,action,reqest,response)
+        response.content = jsonString
+        response.fields["Content-Type"] = "application/json"
+    end
+end
 
 local codes = {
     [200] = "OK",

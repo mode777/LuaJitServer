@@ -34,4 +34,13 @@ function app.start()
             return result.plainText(usr.." was logged out.")
         end
     end
+
+    local test = controller("test")
+    function test.index(id)
+        return result.plainText(id)
+    end
+
+    function test.json()
+        return result.json(request)
+    end
 end

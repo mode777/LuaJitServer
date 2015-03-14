@@ -24,7 +24,7 @@ local types = {
         read = "text"
     },
     json = {
-        type = "text/json",
+        type = "application/json",
         read = "text"
     },
     css = {

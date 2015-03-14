@@ -1,13 +1,12 @@
-local url = require 'socket.url'
 --local routes = require 'routes'
 local data = require 'data'
 local file = require 'file'
+local string,table = string,table
 
 return function(request, response)
-    local parsed = url.parse_path(request.path)
     -- Is file request?
-    if #parsed > 0 and string.match(parsed[#parsed], "%.([^%.]+)$") then
-        local file = file.retrieve(config.staticFilePath..request.path, config.disableCaching)
+    if request.extension then
+        local file = file.retrieve(config.staticFilePath..request.rawPath, config.disableCaching)
         if file then
             response.content = file.data
             response.fields["Content-Type"] = file.mimeType
@@ -15,19 +14,22 @@ return function(request, response)
         else
             response.statusCode = 404
         end
-    elseif #parsed > 0 then
-        local controller = table.remove(parsed,1) or "home"
-        local action = table.remove(parsed,1) or "index"
-        controller = controller:lower()
-        action = action:lower()
-        if controllers[controller] then
-            if controllers[controller][action] then
-                controllers[controller](action,request,response,unpack(parsed))
+    elseif #request.path > 0 then
+        request.controller = table.remove(request.path,1) or "home"
+        request.action = table.remove(request.path,1) or "index"
+        request.controller = request.controller:lower()
+        request.action = request.action:lower()
+        if controllers[request.controller] then
+            if controllers[request.controller][request.action] then
+                local args = {}
+                for _,v in ipairs(request.path) do args[#args+1] = v end
+                for _,v in pairs(request.query) do args[#args+1] = v end
+                controllers[request.controller](request.action,request,response,unpack(args))
             else
-                response.content = "Action "..action.." was not found in Controller "..controller.."."
+                response.content = "Action "..request.action.." was not found in Controller "..request.controller.."."
             end
         else
-            response.content = "Controller "..controller.." was not found."
+            response.content = "Controller "..request.controller.." was not found."
         end
     else
         controllers.home("index",request,response)

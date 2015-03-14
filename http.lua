@@ -3,11 +3,12 @@ local url = require 'socket.url'
 local cs = require 'coroutineSheduler'
 local conf = require 'conf'
 local router = require 'router'
+local httpHelpers = require 'httpHelpers'
 local min = math.min
+local format, pairs, concat, yield, clock = string.format, pairs, table.concat, coroutine.yield, os.clock
 --local log = require 'log'
 
 local http = {}
-
 http.codes = {
     [200] = "OK",
     [405] = "Method not allowed",
@@ -28,7 +29,7 @@ function http.createServer(host,port)
                     local client = http.createClient(sockClient)
                     client.run()
                 end
-                coroutine.yield()
+                yield()
             end
         end
         cs.add(f)
@@ -38,7 +39,7 @@ end
 
 function http.createClient(sockClient)
     local c = {}
-    c.startTime = os.clock()
+    c.startTime = clock()
     function c.parseRequest()
         local request = {
             fields = {}
@@ -50,13 +51,14 @@ function http.createClient(sockClient)
             while err == "timeout" do
                 res, err = sockClient:receive('*l')
                 --if res then log(res) end
-                coroutine.yield()
+                yield()
             end
             if(res) then
                 --Parse request line
                 if not request.method then
-                    local method, path, version = res:match("(%w-) ([^%s]-) HTTP/(%d.%d)")
-                    request.method, request.path, request.httpVersion, request.requestLine = method, path, version, res
+                    local method, url, version = res:match("(%w-) ([^%s]-) HTTP/(%d.%d)")
+                    request.method, request.url, request.httpVersion, request.requestLine = method, url, version, res
+                    httpHelpers.parseURL(request)
                 elseif res == "" then
                     request.finished = true
                 --Parse header fields
@@ -96,19 +98,19 @@ function http.createClient(sockClient)
     function c.writeResponse(response)
         local rt = {}
         --Write response line
-        rt[#rt+1] = string.format("HTTP/1.1 %d %s\r\n", response.statusCode, response.statusMessage or http.codes[response.statusCode] or "")
+        rt[#rt+1] = format("HTTP/1.1 %d %s\r\n", response.statusCode, response.statusMessage or http.codes[response.statusCode] or "")
         if response.content then
             response.fields["Content-Length"] = response.content:len()
         end
         for key,value in pairs(response.fields) do
-            rt[#rt+1] = string.format("%s: %s\r\n", key, value)
+            rt[#rt+1] = format("%s: %s\r\n", key, value)
         end
         rt[#rt+1] = "\r\n"
         sockClient:settimeout(1)
         --write response header
         --sockClient:send(table.concat(rt))
         if response.content then rt[#rt+1] = response.content end
-        local respData = table.concat(rt)
+        local respData = concat(rt)
         local c = respData:len()
         local i = 0
         local blocksize = 1024
@@ -126,14 +128,14 @@ function http.createClient(sockClient)
 		            break
                 end
             end
-            coroutine.yield()
+            yield()
         end
         --print("Transfer finished. Timeout errors:"..to.." Max block:"..block)
     end
     --this is the client main loop
     function c.run()
         local f = function()
-            while os.clock() - c.startTime < config.keepAliveTimeout do
+            while clock() - c.startTime < config.keepAliveTimeout do
                 c.request = c.parseRequest()
                 if c.request.finished then
                     c.response = c.handleResponse(c.request)
