@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="/metroui/metro-bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/metroui/metro-bootstrap-responsive.min.css">
     <link rel="stylesheet" type="text/css" href="/metroui/iconFont.min.css">
+    <script src="/scripts/jquery.min.js"></script>
 </head>
 <body>
     <div class="metro">

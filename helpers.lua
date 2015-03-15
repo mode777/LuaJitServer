@@ -1,6 +1,6 @@
 local helpers = {}
 function helpers.split(self, pat)
-    if not self:find(pat) then return self end
+    --if not self:find(pat) then return self end
     local st, g = 1, self:gmatch("()("..pat..")")
     local function getter(self, segs, seps, sep, cap1, ...)
         st = sep and seps + #sep

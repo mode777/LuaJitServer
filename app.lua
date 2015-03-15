@@ -43,4 +43,20 @@ function app.start()
     function test.json()
         return result.json(request)
     end
+
+    function test.post()
+        if request.form then
+            return result.json(request.form)
+        else
+            return result.statusCode("404","Post data not found.")
+        end
+    end
+
+    function test.get()
+        if request.query then
+            return result.json(request.query)
+        else
+            return result.statusCode("404","Query data not found.")
+        end
+    end
 end

@@ -42,7 +42,8 @@ function http.createClient(sockClient)
     c.startTime = clock()
     function c.parseRequest()
         local request = {
-            fields = {}
+            fields = {},
+            form = {}
         }
         sockClient:settimeout(0)
         local res,err = nil, "timeout"
@@ -74,6 +75,40 @@ function http.createClient(sockClient)
                 end
             end
             if(err == "closed") then break end
+            yield()
+        end
+        if request.fields["content-length"] and request.fields["content-type"] then
+            local typ, rest = request.fields["content-type"]:match("(.-);(.+)")
+            request.mime = typ or request.fields["content-type"]
+            rest = rest or ""
+            request.encoding = rest:match("charset=(.+)") or "utf-8"
+            local resT = {}
+            local len = 0
+            local tLen = tonumber(request.fields["content-length"]) or 0
+            while len < tLen do
+                local rec = min(tLen-(#res*1024),1024)
+                res, err = sockClient:receive(rec)
+                while err == "timeout" do
+                    res, err = sockClient:receive(rec)
+                    yield()
+                end
+                if err == "closed" then
+                    sockClient:close()
+                    break
+                elseif res then
+                    len = len+rec
+                    resT[#resT+1] = res
+                    --print(len,tLen)
+                end
+                yield()
+            end
+            request.content = concat(resT)
+            print("Content body: "..request.content)
+            if request.mime == "application/x-www-form-urlencoded" then
+                request.form = httpHelpers.parseQueryString(request.content)
+            else
+               print("Warining: Multipart Form data is not yet supported. You can parse it yourself via request.content.")
+            end
         end
         return request
     end
@@ -87,7 +122,7 @@ function http.createClient(sockClient)
             },
             content = ""
         }
-        if request.method == "GET" then
+        if request.method == "GET" or request.method == "POST" then
             router(request,response)
         else
             response.statusCode = 405
@@ -98,7 +133,8 @@ function http.createClient(sockClient)
     function c.writeResponse(response)
         local rt = {}
         --Write response line
-        rt[#rt+1] = format("HTTP/1.1 %d %s\r\n", response.statusCode, response.statusMessage or http.codes[response.statusCode] or "")
+        response.statusMessage = response.statusMessage or http.codes[response.statusCode] or ""
+        rt[#rt+1] = format("HTTP/1.1 %d %s\r\n", response.statusCode, response.statusMessage)
         if response.content then
             response.fields["Content-Length"] = response.content:len()
         end
@@ -140,7 +176,7 @@ function http.createClient(sockClient)
                 if c.request.finished then
                     c.response = c.handleResponse(c.request)
                     c.writeResponse(c.response)
-                    print(c.request.requestLine)
+                    print(c.request.requestLine.." - "..c.response.statusCode.." "..c.response.statusMessage)
                     if c.request.fields.connection ~= "keep-alive" then
                         sockClient:close()
                         break

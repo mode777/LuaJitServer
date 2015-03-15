@@ -5,15 +5,9 @@ local httpHelpers = {}
 
 function httpHelpers.parseQueryString(str)
     local t = {}
-    local getter = helpers.split(str,"&")
-    if(type(getter) == "string")then
-        local key, value = str:match("(.-)=(.+)")
+    for parsed in helpers.split(str,"&") do
+        local key, value = parsed:match("(.-)=(.+)")
         t[key] = url.unescape(value)
-    else
-        for str in getter do
-            local key, value = str:match("(.-)=(.+)")
-            t[key] = url.unescape(value)
-        end
     end
     return t
 end

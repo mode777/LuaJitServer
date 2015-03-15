@@ -24,6 +24,7 @@ return function(request, response)
                 local args = {}
                 for _,v in ipairs(request.path) do args[#args+1] = v end
                 for _,v in pairs(request.query) do args[#args+1] = v end
+                for _,v in pairs(request.form) do args[#args+1] = v end
                 controllers[request.controller](request.action,request,response,unpack(args))
             else
                 response.content = "Action "..request.action.." was not found in Controller "..request.controller.."."
