@@ -1,3 +1,4 @@
+io.output():setvbuf("no")
 function app.start()
     local home = controller("home")
     function home.index(...)
@@ -20,11 +21,18 @@ function app.start()
         end
         return result.plainText(res)
     end
-    function home.login(username)
-        if username then
-            createSession()
-            session.username = username
-            return result.view(username)
+    function home.login()
+        if request.method == "GET" then
+            return result.view()
+        elseif request.method == "POST" then
+            if request.form["login"] == "Alex" and request.form["password"] == "famicom" then
+                print("Login success")
+                createSession()
+                session["username"] = "Alexander Klingenbeck"
+                return result.redirect("/home","Login success")
+            else
+                return result.view("Username or password incorrect.")
+            end
         end
     end
     function home.logout()
