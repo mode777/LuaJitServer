@@ -41,7 +41,8 @@ local codes = {
     [200] = "OK",
     [405] = "Method not allowed",
     [404] = "Not found",
-    [500] = "Internal server error."
+    [500] = "Internal server error",
+    [307] = "Temporary redirect"
 }
 result.statusCode =function(code, message)
     code = code or 200
@@ -49,6 +50,16 @@ result.statusCode =function(code, message)
     return function(controllerName,action,reqest,response)
         response.statusCode = code
         response.statusMessage = message
+    end
+end
+
+result.redirect = function(path,message)
+    path = path or "/"
+    message = message or codes[307]
+    return function(controllerName,action,reqest,response)
+        response.statusCode = 307
+        response.statusMessage = message
+        response.fields.location = path
     end
 end
 
