@@ -14,25 +14,16 @@ return function(request, response)
         else
             response.statusCode = 404
         end
-    elseif #request.path > 0 then
+    else
         request.controller = table.remove(request.path,1) or "home"
         request.action = table.remove(request.path,1) or "index"
         request.controller = request.controller:lower()
         request.action = request.action:lower()
-        if controllers[request.controller] then
-            if controllers[request.controller][request.action] then
-                local args = {}
-                for _,v in ipairs(request.path) do args[#args+1] = v end
-                for _,v in pairs(request.query) do args[#args+1] = v end
-                for _,v in pairs(request.form) do args[#args+1] = v end
-                controllers[request.controller](request.action,request,response,unpack(args))
-            else
-                response.content = "Action "..request.action.." was not found in Controller "..request.controller.."."
-            end
-        else
-            response.content = "Controller "..request.controller.." was not found."
-        end
-    else
-        controllers.home("index",request,response)
+        local args = {}
+        for _,v in ipairs(request.path) do args[#args+1] = v end
+        for _,v in pairs(request.query) do args[#args+1] = v end
+        for _,v in pairs(request.form) do args[#args+1] = v end
+        InvokeController(request,response,unpack(args))
+        --controllers.home("index",request,response)
     end
 end
