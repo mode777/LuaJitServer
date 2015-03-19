@@ -4,7 +4,7 @@ local htmlHelpers = require 'htmlHelpers'
 local loadstring, concat, format, smt, pairs, setfenv = loadstring, table.concat, string.format, setmetatable, pairs, setfenv
 local file = require "file"
 local template = {}
-function template.load(path)
+function template.load(path, body)
     local file = file.retrieve(config.serverRoot..path, true)
     if not file then return end
     local result = {}
@@ -33,11 +33,22 @@ function template.load(path)
         end
         data.print = _tmplPrint
         data.Helpers = htmlHelpers
+        local layout
+        data.UseLayout = function(path)
+            layout = path
+        end
+        data.RenderBody = function()
+            result[#result+1] = body
+        end
         smt(data,{__index = _G})
         setfenv(func,data)
         local _,err =  pcall(func)
         if not err then
-            return concat(result)
+            if not layout then
+                return concat(result)
+            else
+                return template.load(layout,concat(result))(data)
+            end
         else
             return "Error rendering "..path..": "..err
         end

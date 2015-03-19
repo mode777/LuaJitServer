@@ -143,7 +143,7 @@ function http.createClient(sockClient)
             rt[#rt+1] = format("%s: %s\r\n", key, value)
         end
         rt[#rt+1] = "\r\n"
-        sockClient:settimeout(1)
+        sockClient:settimeout(-1)
         --write response header
         --sockClient:send(table.concat(rt))
         if response.content then rt[#rt+1] = response.content end

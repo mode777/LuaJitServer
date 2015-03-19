@@ -19,8 +19,12 @@ Controller.index = {
 }
 
 function Controller.login()
+    local data = {
+        title="Login",
+        heading = "Login to Web App"
+    }
     if Request.method == "GET" then
-        return Result.view()
+        return Result.view(data)
     elseif Request.method == "POST" then
         if Request.form["login"] == "Alex" and Request.form["password"] == "famicom" then
             print("Login success")
@@ -30,7 +34,8 @@ function Controller.login()
             --return Result.view("Login success.")
             return Result.redirect("/home","Login success")
         else
-            return Result.view("Username or password incorrect.")
+            data.message = "Username or password incorrect."
+            return Result.view(data)
         end
     end
 end
@@ -41,4 +46,8 @@ function Controller.logout()
         DestroySession()
         return Result.plainText(usr.." was logged out.")
     end
+end
+
+function Controller.viewtest()
+    return Result.view({title="View Test",heading="This is a layout view"})
 end
