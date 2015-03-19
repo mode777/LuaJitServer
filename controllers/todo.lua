@@ -1,7 +1,7 @@
 local items = {
     {
-        title= "Title",
-        desc = "Desc",
+        title= "This is my title",
+        desc = "This is my description",
         done = false
     },
 }

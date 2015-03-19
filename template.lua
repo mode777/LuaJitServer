@@ -1,3 +1,6 @@
+_tmplPrint = nil
+
+local htmlHelpers = require 'htmlHelpers'
 local loadstring, concat, format, smt, pairs, setfenv = loadstring, table.concat, string.format, setmetatable, pairs, setfenv
 local file = require "file"
 local template = {}
@@ -22,12 +25,14 @@ function template.load(path)
     return function(data)
         local result = {}
         data = data or {}
-        data.print = function(...)
+        _tmplPrint = function(...)
             local args = {... }
             for _,v in ipairs(args) do
                 result[#result+1] = tostring(v)
             end
         end
+        data.print = _tmplPrint
+        data.Helpers = htmlHelpers
         smt(data,{__index = _G})
         setfenv(func,data)
         local _,err =  pcall(func)
