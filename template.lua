@@ -16,7 +16,9 @@ function template.load(path)
     end
     parse(file.data)
     local st = concat(result)
-    local func = loadstring(st)
+
+    local func = assert(loadstring(st))
+
     return function(data)
         local result = {}
         data = data or {}

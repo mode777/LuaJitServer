@@ -6,6 +6,7 @@ local controllers = {}
 Controller = function(name)
     if not name then error("Controller needs a name.") end
     local controller = {}
+    controller._options = {}
     setmetatable(controller, {
         __call = function(t,action,request,response,...)
             if(t[action])then
@@ -80,7 +81,8 @@ for file in lfs.dir(path) do
         local contr = loadfile(file)
         local controller = Controller(name);
         local env = {
-            Controller = controller
+            Controller = controller,
+            Options = controller._options
         }
         setmetatable(env, {__index=_G})
         setfenv(contr, env)

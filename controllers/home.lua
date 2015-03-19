@@ -1,3 +1,5 @@
+Options.alex = "blex"
+
 Controller.index = {
     allowed = {"GET"},
     authorize = true,

@@ -11,7 +11,6 @@ function session.create(response)
     return sessions[sessionId], sessionId
 end
 function session.resume(sessionId)
-    print(sessionId)
     if not sessions[sessionId] then print("session not found") else print("session found") end
     return sessions[sessionId]
 end
