@@ -27,13 +27,25 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Project name</a>
+            <a class="navbar-brand" href="/">lua<small>>>server</small></a>
         </div>
-        <div id="navbar" class="collapse navbar-collapse">
+        <div id="navbar" class="collapse navbar-collapse navbar-right">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="/home/about">About</a></li>
+                <li><a href="/home/contact">Contact</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <?lua if Username then ?>
+                            <li class="dropdown-header">Currently logged in as <?lua p(Username or "") ?></li>
+                            <li class="divider"></li>
+                            <li><a href="/home/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Log Out</a></li>
+                        <?lua else ?>
+                            <li><a href="/home/login"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Log In</a></li>
+                        <?lua end ?>
+                    </ul>
+                </li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

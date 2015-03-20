@@ -70,13 +70,17 @@ result.view = function(data)
     -- if not table or has numeric indices (is array/mixed)
     if type(data) ~= "table" or (type(data) == "table" and #data > 0) then data = {data=data} end
 
-    return function(controllerName,action,reqest,response)
+    return function(controllerName,action,request,response)
         local path = "/views/"..controllerName.."/"..action..".lsp"
         local template = template.load(path)
         if template then
-            result.html(template(data))(controllerName,action,reqest,response)
+            if request.session then
+                data.Session = request.session
+                data.Username = request.session.username
+            end
+            result.html(template(data))(controllerName,action,request,response)
         else
-            result.statusCode(404,"No view for action "..action)(controllerName,action,reqest,response)
+            result.statusCode(404,"No view for action "..action)(controllerName,action,request,response)
         end
     end
 end

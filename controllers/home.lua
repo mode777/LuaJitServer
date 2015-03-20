@@ -43,10 +43,21 @@ function Controller.logout()
     if Session then
         local usr = Session.username
         DestroySession()
-        return Result.plainText(usr.." was logged out.")
+        --return Result.plainText(usr.." was logged out.")
     end
+    return Result.redirect("/home/login")
 end
 
-function Controller.viewtest()
-    return Result.view({title="View Test",heading="This is a layout view"})
-end
+Controller.about = {
+    authorize = true,
+    callback = function()
+        return Result.view({title="About"})
+    end
+}
+
+Controller.contact = {
+    authorize = true,
+    callback = function()
+        return Result.view({title="Contact"})
+    end
+}

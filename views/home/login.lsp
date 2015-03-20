@@ -1,15 +1,22 @@
 <?lua UseLayout("/views/_layout/layout.lsp") ?>
-<div class="login">
-    <form method="post" action="/home/login" method="post">
-        <div class="fg-red"><?lua print(message or "") ?></div>
-        <p><input type="text" name="login" value="" placeholder="Username or Email"></p>
-        <p><input type="password" name="password" value="" placeholder="Password"></p>
-        <p class="remember_me">
-            <label>
-                <input type="checkbox" name="remember_me" id="remember_me">
-                Remember me on this computer
-            </label>
-        </p>
-        <p class="submit"><input type="submit" name="commit" value="Login"></p>
-    </form>
+<div>
+    <div class="panel panel-primary">
+        <div class="panel-heading" >
+            <h2 class="panel-title">Log In</h2>
+        </div>
+        <div class="panel-body">
+            <form class="form-signin" method="post" action="/home/login">
+                <label for="username" class="sr-only">Username</label>
+                <input name="login" type="text" id="username" class="form-control" placeholder="Username" required autofocus>
+                <label for="password" class="sr-only">Password</label>
+                <input name="password" type="password" id="password" class="form-control" placeholder="Password" required>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            </form>
+        </div>
+    </div>
 </div>

@@ -12,6 +12,7 @@ Controller = function(name)
             if(t[action])then
                 local env
                 local current_session = request.sessionId and session.resume(request.sessionId) or nil
+                request.session = current_session
                 local authorized = current_session and current_session.authorized or false
 
                 if(not t[action].authorize or (t[action].authorize and authorized)) then
