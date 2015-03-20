@@ -11,7 +11,7 @@ Controller.index = {
                 {text="Content",href="/content/"},
                 {text="Index",href="/index/" }
             },
-            title="Lua Server",
+            title="Home",
             heading="Welcome to the Lua Server",
             username = Session and Session.username or ""
         })

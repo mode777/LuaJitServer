@@ -27,15 +27,15 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">lua<small>>>server</small></a>
+            <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span> Lua Server</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse navbar-right">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Home</a></li>
-                <li><a href="/home/about">About</a></li>
-                <li><a href="/home/contact">Contact</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account<span class="caret"></span></a>
+                <li class="<?lua p(title=='Home' and 'active' or '') ?>"><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
+                <li class="<?lua p(title=='About' and 'active' or '') ?>"><a href="/home/about"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> About</a></li>
+                <li class="<?lua p(title=='Contact' and 'active' or '') ?>"><a href="/home/contact"><span class="glyphicon glyphicon-send" aria-hidden="true"></span> Contact</a></li>
+                <li class="<?lua p(title=='Login' and 'active' or '') ?> dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> Account<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <?lua if Username then ?>
                             <li class="dropdown-header">Currently logged in as <?lua p(Username or "") ?></li>
