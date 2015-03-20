@@ -88,10 +88,6 @@ for file in lfs.dir(path) do
         setmetatable(env, {__index=_G})
         setfenv(contr, env)
         contr()
-
-        for i,v in pairs(controller) do
-            print(i,v)
-        end
     end
 end
 local _, err = lfs.chdir(config.serverRoot)

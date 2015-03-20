@@ -27,7 +27,6 @@ function Controller.login()
         return Result.view(data)
     elseif Request.method == "POST" then
         if Request.form["login"] == "Alex" and Request.form["password"] == "famicom" then
-            print("Login success")
             CreateSession()
             Session["username"] = "Alexander Klingenbeck"
             Session.authorized = true

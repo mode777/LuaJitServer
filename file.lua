@@ -35,7 +35,7 @@ local function newFile(path)
     else
         local filename = segments[#segments]
         local _, ext = filename:match("(.-)%.([^%.]+)$")
-        print(filename,ext)
+        --print(filename,ext)
         local mimeType = mime[ext] or mime["*"]
         local mode = mimeType.read == "binary" and "rb" or "r"
         local data, size = readFile(path,mode)

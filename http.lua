@@ -104,7 +104,7 @@ function http.createClient(sockClient)
                 yield()
             end
             request.content = concat(resT)
-            print("Content body: "..request.content)
+            --print("Content body: "..request.content)
             if request.mime == "application/x-www-form-urlencoded" then
                 request.form = httpHelpers.parseQueryString(request.content)
             else
