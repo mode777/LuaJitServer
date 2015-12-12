@@ -2,10 +2,8 @@ local goip = {}
 local http = require 'socket.http'
 
 local function wait(s)
-    local t = os.clock()
-    while (os.clock()-t < s) do
-
-    end
+    --linux only
+    os.execute("sleep "..s)
 end
 
 local function updateIp(username, password)
